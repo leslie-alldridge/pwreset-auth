@@ -53,7 +53,7 @@ class Register extends Component {
       });
     } else {
       axios
-        .post("http://localhost:3000/registerUser", {
+        .post("http://localhost:3000/register", {
           first_name: this.state.first_name,
           last_name: this.state.last_name,
           email: this.state.email,
