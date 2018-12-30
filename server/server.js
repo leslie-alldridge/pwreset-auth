@@ -7,7 +7,7 @@ const jwtSecret = require("../config/jwtConfig");
 const jwt = require("jsonwebtoken");
 const server = express();
 
-const { findUser } = require("./db/users");
+const { findUser, userExists } = require("./db/users");
 require('../config/passport');
 
 server.use(cors("*"));
@@ -28,24 +28,28 @@ server.post("/register", (req, res, next) => {
       res.send(info.message);
     } else {
       req.logIn(user, err => {
-        const data = {
-          first_name: req.body.first_name,
-          last_name: req.body.last_name,
-          email: req.body.email,
-          username: user.username
-        };
-        findUser(data.username).then(user => {
-          user
-            .update({
-              first_name: data.first_name,
-              last_name: data.last_name,
-              email: data.email
-            })
-            .then(() => {
-              console.log("user created in db");
-              res.status(200).send({ message: "user created" });
-            });
-        });
+        // const data = {
+        //   first_name: req.body.first_name,
+        //   last_name: req.body.last_name,
+        //   email: req.body.email,
+        //   username: user.username
+        // };
+        // userExists(data.username).then(user => {
+        //   user
+        //     .update({
+        //       first_name: data.first_name,
+        //       last_name: data.last_name,
+        //       email: data.email
+        //     })
+        //     .then(() => {
+        //       console.log("user created in db");
+        //       res.status(200).send({ message: "user created" });
+        //     });
+        // });
+        res.status(200).send({
+            
+            message: "success"
+          });
       });
     }
   })(req, res, next);
@@ -63,8 +67,13 @@ server.post("/login", (req, res, next) => {
       console.log(info.message);
       res.send(info.message);
     } else {
+        console.log(user);
+        
       req.logIn(user, err => {
-        findUser(user).then(user => {
+        findUser(user.email).then(user => {
+            console.log(user);
+            console.log('new');
+            
           const token = jwt.sign({ id: user.username }, jwtSecret.secret);
           res.status(200).send({
             auth: true,

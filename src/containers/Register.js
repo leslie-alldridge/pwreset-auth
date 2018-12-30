@@ -72,7 +72,7 @@ class Register extends Component {
             console.log(response.data)
             this.setState({
               //changed here
-              messageFromServer: response.data,
+              messageFromServer: response.data.message,
               showError: false,
               loginError: false,
               registerError: false

@@ -1,6 +1,6 @@
 const jwtSecret = require("./jwtConfig");
 const bcrypt = require("bcryptjs");
-const { createUser, findUser } = require("../server/db/users");
+const { createUser, findUser, userExists } = require("../server/db/users");
 
 const BCRYPT_SALT_ROUNDS = 12;
 
@@ -19,8 +19,14 @@ passport.use(
       session: false
     },
     (req, username, password, done) => {
+        console.log('email req below');
+        
+        console.log(req.body.email);
+        
       try {
         findUser(req.body.email).then(user => {
+            console.log(user);
+            
           if (user != null) {
             console.log("username or email already taken");
             return done(null, false, {
@@ -57,8 +63,12 @@ passport.use(
       session: false
     },
     (username, password, done) => {
+        console.log(username);
+        
       try {
-        findUser(username).then(user => {
+        userExists(username).then(user => {
+            console.log(user);
+            
           if (user === null) {
             return done(null, false, { message: "bad username" });
           } else {
