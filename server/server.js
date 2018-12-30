@@ -2,40 +2,80 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const passport = require('../config/local')
-const authHelpers = require('../config/_helpers');
-
+const passport = require("passport");
+const jwtSecret = require("../config/jwtConfig");
+const jwt = require("jsonwebtoken");
 const server = express();
+
+const { findUser } = require("./db/users");
+require('../config/passport');
 
 server.use(cors("*"));
 
 server.use(bodyParser.json());
 server.use(express.static(path.join(__dirname, "../public")));
+server.use(passport.initialize());
 
-server.post('/register',authHelpers.loginRedirect, (req, res, next) => {
-    console.log('hit');
-    
-    return authHelpers.createUser(req, res)
-  .then((response) => {
-    passport.authenticate('local', (err, user, info) => {
-      if (user) { handleResponse(res, 200, 'success'); }
-    })(req, res, next);
-  })
-  .catch((err) => { handleResponse(res, 500, 'error'); });
+server.post("/register", (req, res, next) => {
+  console.log("hit");
+
+  passport.authenticate("register", (err, user, info) => {
+    if (err) {
+      console.log(err);
+    }
+    if (info != undefined) {
+      console.log(info.message);
+      res.send(info.message);
+    } else {
+      req.logIn(user, err => {
+        const data = {
+          first_name: req.body.first_name,
+          last_name: req.body.last_name,
+          email: req.body.email,
+          username: user.username
+        };
+        findUser(data.username).then(user => {
+          user
+            .update({
+              first_name: data.first_name,
+              last_name: data.last_name,
+              email: data.email
+            })
+            .then(() => {
+              console.log("user created in db");
+              res.status(200).send({ message: "user created" });
+            });
+        });
+      });
+    }
+  })(req, res, next);
 });
 
-server.post('/login', authHelpers.loginRedirect, (req, res, next) => {
-    passport.authenticate('local', (err, user, info) => {
-      if (err) { handleResponse(res, 500, 'error'); }
-      if (!user) { handleResponse(res, 404, 'User not found'); }
-      if (user) {
-        req.logIn(user, function (err) {
-          if (err) { handleResponse(res, 500, 'error'); }
-          handleResponse(res, 200, 'success');
+server.post("/login", (req, res, next) => {
+  console.log("hit server ping");
+
+  passport.authenticate("login", (err, user, info) => {
+    if (err) {
+      console.log(err);
+      console.log("error is above");
+    }
+    if (info !== undefined) {
+      console.log(info.message);
+      res.send(info.message);
+    } else {
+      req.logIn(user, err => {
+        findUser(user).then(user => {
+          const token = jwt.sign({ id: user.username }, jwtSecret.secret);
+          res.status(200).send({
+            auth: true,
+            token: token,
+            message: "user found & logged in"
+          });
         });
-      }
-    })(req, res, next);
-  });
+      });
+    }
+  })(req, res, next);
+});
 
 //   function handleLogin(req, user) {
 //     return new Promise((resolve, reject) => {
@@ -47,7 +87,7 @@ server.post('/login', authHelpers.loginRedirect, (req, res, next) => {
 //   }
 
 function handleResponse(res, code, statusMsg) {
-    res.status(code).json({status: statusMsg});
-  }
+  res.status(code).json({ status: statusMsg });
+}
 
 module.exports = server;
