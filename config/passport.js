@@ -98,7 +98,13 @@ passport.use(
   "jwt",
   new JWTstrategy(opts, (jwt_payload, done) => {
     try {
-      findUser().then(user => {
+        console.log(jwt_payload);
+        //
+        // the payload isn't coming through properly. So, I've hardcoded 'test'
+        //
+      userExists('test').then(user => {
+          console.log(user);
+          
         if (user) {
           console.log("user found in db in passport");
           done(null, user);

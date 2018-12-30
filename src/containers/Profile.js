@@ -53,7 +53,7 @@ class Profile extends Component {
       });
     } else {
       await axios
-        .get("http://localhost:3003/findUser", {
+        .get("http://localhost:3000/findUser", {
           params: {
             username: this.props.match.params.username
           },

@@ -7,8 +7,8 @@ const jwtSecret = require("../config/jwtConfig");
 const jwt = require("jsonwebtoken");
 const server = express();
 
-const { findUser, userExists } = require("./db/users");
-require('../config/passport');
+const { findUser } = require("./db/users");
+require("../config/passport");
 
 server.use(cors("*"));
 
@@ -17,63 +17,32 @@ server.use(express.static(path.join(__dirname, "../public")));
 server.use(passport.initialize());
 
 server.post("/register", (req, res, next) => {
-  console.log("hit");
-
   passport.authenticate("register", (err, user, info) => {
     if (err) {
       console.log(err);
     }
-    if (info != undefined) {
-      console.log(info.message);
+    if (info !== undefined) {
       res.send(info.message);
     } else {
       req.logIn(user, err => {
-        // const data = {
-        //   first_name: req.body.first_name,
-        //   last_name: req.body.last_name,
-        //   email: req.body.email,
-        //   username: user.username
-        // };
-        // userExists(data.username).then(user => {
-        //   user
-        //     .update({
-        //       first_name: data.first_name,
-        //       last_name: data.last_name,
-        //       email: data.email
-        //     })
-        //     .then(() => {
-        //       console.log("user created in db");
-        //       res.status(200).send({ message: "user created" });
-        //     });
-        // });
         res.status(200).send({
-            
-            message: "success"
-          });
+          message: "success"
+        });
       });
     }
   })(req, res, next);
 });
 
 server.post("/login", (req, res, next) => {
-  console.log("hit server ping");
-
   passport.authenticate("login", (err, user, info) => {
     if (err) {
       console.log(err);
-      console.log("error is above");
     }
     if (info !== undefined) {
-      console.log(info.message);
       res.send(info.message);
     } else {
-        console.log(user);
-        
       req.logIn(user, err => {
         findUser(user.email).then(user => {
-            console.log(user);
-            console.log('new');
-            
           const token = jwt.sign({ id: user.username }, jwtSecret.secret);
           res.status(200).send({
             auth: true,
@@ -86,17 +55,27 @@ server.post("/login", (req, res, next) => {
   })(req, res, next);
 });
 
-//   function handleLogin(req, user) {
-//     return new Promise((resolve, reject) => {
-//       req.login(user, (err) => {
-//         if (err) reject(err);
-//         resolve();
-//       });
-//     });
-//   }
-
-function handleResponse(res, code, statusMsg) {
-  res.status(code).json({ status: statusMsg });
-}
+server.get("/finduser", (req, res, next) => {
+  passport.authenticate("jwt", { session: false }, (err, user, info) => {
+    if (err) {
+      console.log(err);
+    }
+    if (info !== undefined) {
+      console.log(info.message);
+      res.send(info.message);
+    } else {
+      console.log("user found in db from findUsers");
+      res.status(200).send({
+        auth: true,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        username: user.username,
+        password: user.password,
+        message: "user found in db"
+      });
+    }
+  })(req, res, next);
+});
 
 module.exports = server;

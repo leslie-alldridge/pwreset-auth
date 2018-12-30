@@ -24,7 +24,11 @@ function findUser(email, testDb) {
   const connection = testDb || knex;
 
   console.log("hit find user");
+  console.log(email);
+  
   return connection("users").where('email', email).then(data => {
+      console.log(data);
+      
       if (data.length > 0){
           console.log('found a user');
           
@@ -38,6 +42,8 @@ function findUser(email, testDb) {
 }
 
 function userExists(name, testDb) {
+    console.log(name);
+    
     const connection = testDb || knex;
 
     console.log("hit find user");
