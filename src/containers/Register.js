@@ -70,7 +70,8 @@ class Register extends Component {
             });
           } else {
             this.setState({
-              messageFromServer: response.data.message,
+              //changed here
+              messageFromServer: response.data.status,
               showError: false,
               loginError: false,
               registerError: false
@@ -172,7 +173,7 @@ class Register extends Component {
           />
         </div>
       );
-    } else if (messageFromServer === "user created") {
+    } else if (messageFromServer === "success") {
       return (
         <div>
           <HeaderBar title={title} />
