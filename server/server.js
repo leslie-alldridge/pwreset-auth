@@ -95,7 +95,7 @@ server.post("/forgotpassword", (req, res, next) => {
     } else {
       const token = crypto.randomBytes(20).toString("hex");
       userResetReq(req.body.email, token, Date.now() + 360000);
-
+      console.log(process.env.EMAIL_ADDRESS)
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -106,7 +106,7 @@ server.post("/forgotpassword", (req, res, next) => {
 
       const mailOptions = {
         from: `lesliedevtest1@gmail.com`,
-        to: `${user.email}`,
+        to: `${req.body.email}`,
         subject: `Link To Reset Password`,
         text:
           `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n` +
