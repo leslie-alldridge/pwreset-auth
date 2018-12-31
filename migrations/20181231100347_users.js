@@ -5,8 +5,8 @@ exports.up = function(knex, Promise) {
     table.string("email");
     table.string("first_name");
     table.string("last_name");
-    table.binary('password');
-    table.binary('resetPasswordToken');
+    table.string('password');
+    table.string('resetPasswordToken');
     table.string('resetPasswordExpires');
   });
 };
