@@ -10,7 +10,7 @@ const jwtSecret = require("../config/jwtConfig");
 const jwt = require("jsonwebtoken");
 const server = express();
 
-const { findUser, userResetReq, deleteUser } = require("./db/users");
+const { findUser, userResetReq, deleteUser, userExists, updateUser } = require("./db/users");
 require("../config/passport");
 
 server.use(cors("*"));
@@ -139,17 +139,42 @@ server.delete("/deleteuser", (req, res, next) => {
       deleteUser(user.username)
         .then(user => {
           if (user === 1) {
-            console.log("user deleted from db");
             res.json("user deleted from db");
           } else {
-            console.log("user not found in db");
             res.status(404).json("no user with that username to delete");
           }
         })
         .catch(err => {
-          console.log("problem communicating with db");
           res.status(500).json(err);
         });
+    }
+  })(req, res, next);
+});
+
+server.put('/updateuser', (req, res, next) => {
+  console.log('hit route');
+  
+  passport.authenticate('jwt', { session: false }, (err, user, info) => {
+    if (err) {
+      console.log(err);
+    }
+    if (info != undefined) {
+      console.log(info.message);
+      res.send(info.message);
+    } else {
+      userExists(user.username).then(user => {
+        if (user != null) {
+          console.log('user found in db');
+          updateUser(req.body.first_name,req.body.last_name,req.body.email)
+            .then(() => {
+              console.log('user updated');
+              res.status(200).send({ auth: true, message: 'user updated' });
+            });
+        } else {
+          console.log('no user exists in db to update');
+          res.status(404).json('no user exists in db to update');
+        }
+      });
     }
   })(req, res, next);
 });

@@ -51,7 +51,7 @@ class UpdateProfile extends Component {
     }
 
     axios
-      .get("http://localhost:3003/findUser", {
+      .get("http://localhost:3000/findUser", {
         params: {
           username: this.props.match.params.username
         },
@@ -92,7 +92,7 @@ class UpdateProfile extends Component {
     e.preventDefault();
     axios
       .put(
-        "http://localhost:3003/updateUser",
+        "http://localhost:3000/updateuser",
         {
           first_name: this.state.first_name,
           last_name: this.state.last_name,

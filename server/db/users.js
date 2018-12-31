@@ -7,7 +7,8 @@ module.exports = {
   findUser,
   userExists,
   userResetReq,
-  deleteUser
+  deleteUser,
+  updateUser
 };
 
 function createUser(data, testDb) {
@@ -57,4 +58,15 @@ function deleteUser(user, testDb) {
   return connection("users")
     .where("username", user)
     .del()
+}
+
+function updateUser(first_name, last_name, email, testDb) {
+  const connection = testDb || knex;
+  return connection("users")
+  .where("email", email)
+  .update({
+    first_name,
+    last_name,
+    email
+  })
 }
