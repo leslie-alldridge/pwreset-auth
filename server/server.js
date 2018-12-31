@@ -163,9 +163,13 @@ server.put('/updateuser', (req, res, next) => {
       res.send(info.message);
     } else {
       userExists(user.username).then(user => {
+        console.log(user);
+        console.log('above line');
+        
+        
         if (user != null) {
           console.log('user found in db');
-          updateUser(req.body.first_name,req.body.last_name,req.body.email)
+          updateUser(req.body.first_name,req.body.last_name,req.body.email, user.email)
             .then(() => {
               console.log('user updated');
               res.status(200).send({ auth: true, message: 'user updated' });

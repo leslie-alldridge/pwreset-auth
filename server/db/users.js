@@ -60,13 +60,16 @@ function deleteUser(user, testDb) {
     .del()
 }
 
-function updateUser(first_name, last_name, email, testDb) {
+function updateUser(first_name, last_name, email, oldEmail, testDb) {
+  console.log(email);
+  
   const connection = testDb || knex;
   return connection("users")
-  .where("email", email)
+  .where("email", oldEmail)
   .update({
+    email,
     first_name,
-    last_name,
-    email
+    last_name
+   
   })
 }
