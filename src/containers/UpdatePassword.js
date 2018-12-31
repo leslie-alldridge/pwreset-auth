@@ -47,14 +47,13 @@ class UpdatePassword extends Component {
       });
     } else {
       axios
-        .get("http://localhost:3003/findUser", {
+        .get("http://localhost:3000/finduser", {
           params: {
             username: this.props.match.params.username
           },
           headers: { Authorization: `JWT ${accessString}` }
         })
         .then(response => {
-          // console.log(response.data);
           this.setState({
             loadingUser: false,
             username: response.data.username,
@@ -85,7 +84,7 @@ class UpdatePassword extends Component {
       e.preventDefault();
       axios
         .put(
-          "http://localhost:3003/updatePassword",
+          "http://localhost:3000/updatepassword",
           {
             username: this.state.username,
             password: this.state.password

@@ -8,7 +8,8 @@ module.exports = {
   userExists,
   userResetReq,
   deleteUser,
-  updateUser
+  updateUser,
+  updatePassword
 };
 
 function createUser(data, testDb) {
@@ -61,8 +62,6 @@ function deleteUser(user, testDb) {
 }
 
 function updateUser(first_name, last_name, email, oldEmail, testDb) {
-  console.log(email);
-  
   const connection = testDb || knex;
   return connection("users")
   .where("email", oldEmail)
@@ -70,6 +69,14 @@ function updateUser(first_name, last_name, email, oldEmail, testDb) {
     email,
     first_name,
     last_name
-   
+  })
+}
+
+function updatePassword(user, password, testDb){
+  const connection = testDb || knex;
+  return connection("users")
+  .where("username", user)
+  .update({
+    password
   })
 }

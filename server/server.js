@@ -2,16 +2,18 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-require("dotenv").config();
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const passport = require("passport");
 const jwtSecret = require("../config/jwtConfig");
 const jwt = require("jsonwebtoken");
 const server = express();
+const bcrypt = require('bcryptjs');
+const BCRYPT_SALT_ROUNDS = 12;
 
-const { findUser, userResetReq, deleteUser, userExists, updateUser } = require("./db/users");
+const { findUser, userResetReq, deleteUser, userExists, updateUser, updatePassword } = require("./db/users");
 require("../config/passport");
+require("dotenv").config();
 
 server.use(cors("*"));
 
@@ -152,28 +154,53 @@ server.delete("/deleteuser", (req, res, next) => {
 });
 
 server.put('/updateuser', (req, res, next) => {
-  console.log('hit route');
-  
   passport.authenticate('jwt', { session: false }, (err, user, info) => {
     if (err) {
       console.log(err);
     }
-    if (info != undefined) {
+    if (info !== undefined) {
       console.log(info.message);
       res.send(info.message);
     } else {
       userExists(user.username).then(user => {
-        console.log(user);
-        console.log('above line');
-        
-        
         if (user != null) {
-          console.log('user found in db');
           updateUser(req.body.first_name,req.body.last_name,req.body.email, user.email)
             .then(() => {
-              console.log('user updated');
               res.status(200).send({ auth: true, message: 'user updated' });
             });
+        } else {
+          console.log('no user exists in db to update');
+          res.status(404).json('no user exists in db to update');
+        }
+      });
+    }
+  })(req, res, next);
+});
+
+server.put('/updatepassword', (req, res, next) => {
+  passport.authenticate('jwt', { session: false }, (err, user, info) => {
+    if (err) {
+      console.log(err);
+    }
+    if (info !== undefined) {
+      console.log(info.message);
+      res.send(info.message);
+    } else {
+      userExists(user.username).then(user => {
+        if (user != null) {
+          console.log('user found in db');
+          bcrypt
+            .hash(req.body.password, BCRYPT_SALT_ROUNDS)
+            .then(hashedPassword => {
+              
+            updatePassword(user.username, hashedPassword)
+            .then(() => {
+              console.log('password updated');
+              res
+                .status(200)
+                .send({ auth: true, message: 'password updated' });
+            });
+          })
         } else {
           console.log('no user exists in db to update');
           res.status(404).json('no user exists in db to update');
