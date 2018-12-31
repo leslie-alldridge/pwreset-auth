@@ -47,7 +47,7 @@ class UpdatePassword extends Component {
       });
     } else {
       axios
-        .get("http://localhost:3000/finduser", {
+        .get("/finduser", {
           params: {
             username: this.props.match.params.username
           },
@@ -84,7 +84,7 @@ class UpdatePassword extends Component {
       e.preventDefault();
       axios
         .put(
-          "http://localhost:3000/updatepassword",
+          "/updatepassword",
           {
             username: this.state.username,
             password: this.state.password

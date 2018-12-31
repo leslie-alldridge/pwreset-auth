@@ -51,7 +51,7 @@ class UpdateProfile extends Component {
     }
 
     axios
-      .get("http://localhost:3000/findUser", {
+      .get("/finduser", {
         params: {
           username: this.props.match.params.username
         },

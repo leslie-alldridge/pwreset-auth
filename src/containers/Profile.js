@@ -53,7 +53,7 @@ class Profile extends Component {
       });
     } else {
       await axios
-        .get("http://localhost:3000/findUser", {
+        .get("/findUser", {
           params: {
             username: this.props.match.params.username
           },
@@ -87,7 +87,7 @@ class Profile extends Component {
 
     e.preventDefault();
     axios
-      .delete("http://localhost:3000/deleteuser", {
+      .delete("/deleteuser", {
         params: {
           username: this.props.match.params.username
         },

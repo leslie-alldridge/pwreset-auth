@@ -47,7 +47,7 @@ class Login extends Component {
       });
     } else {
       axios
-        .post("http://localhost:3000/login", {
+        .post("/login", {
           username: this.state.username,
           password: this.state.password
         })
