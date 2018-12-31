@@ -73,6 +73,10 @@ passport.use(
             return done(null, false, { message: "bad username" });
           } else {
             const userPass = user.password
+            console.log(password);
+            console.log(userPass);
+            
+            
             bcrypt.compare(password, userPass).then(response => {
               if (response !== true) {
                 console.log("passwords do not match");
