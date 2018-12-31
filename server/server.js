@@ -105,7 +105,7 @@ server.post("/forgotpassword", (req, res, next) => {
       });
 
       const mailOptions = {
-        from: `mySqlDemoEmail@gmail.com`,
+        from: `lesliedevtest1@gmail.com`,
         to: `${user.email}`,
         subject: `Link To Reset Password`,
         text:
