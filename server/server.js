@@ -43,7 +43,10 @@ server.post("/login", (req, res, next) => {
     } else {
       req.logIn(user, err => {
         findUser(user.email).then(user => {
-          const token = jwt.sign({ id: user.username }, jwtSecret.secret);
+            console.log(user);
+            console.log('read above');
+            
+          const token = jwt.sign({ id: user[0].username }, jwtSecret.secret);
           res.status(200).send({
             auth: true,
             token: token,

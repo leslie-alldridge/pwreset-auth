@@ -98,11 +98,11 @@ passport.use(
   "jwt",
   new JWTstrategy(opts, (jwt_payload, done) => {
     try {
-        console.log(jwt_payload);
+        console.log(jwt_payload.id);
         //
         // the payload isn't coming through properly. So, I've hardcoded 'test'
         //
-      userExists('test').then(user => {
+      userExists(jwt_payload.id).then(user => {
           console.log(user);
           
         if (user) {
