@@ -43,24 +43,15 @@ function findUser(email, testDb) {
 }
 
 function userExists(name, testDb) {
-    console.log(name);
-    
     const connection = testDb || knex;
-
-    console.log("hit find user");
     return connection("users").where('username', name).first();
 }
 
 function userResetReq(email, token, date, testDb) {
-  console.log(token);
-  console.log(date);
-  console.log(email);
-  
   const connection = testDb || knex;
   return connection("users").where('email', email).update({
     resetPasswordToken: token, 
     resetPasswordExpires:date
   }).then(data => console.log(data)
   );
-
 }
