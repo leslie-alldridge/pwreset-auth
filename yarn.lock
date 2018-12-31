@@ -6809,6 +6809,10 @@ node-releases@^1.0.0-alpha.11, node-releases@^1.1.1:
   dependencies:
     semver "^5.3.0"
 
+nodemailer@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-5.0.0.tgz#bcb409eca613114e85de42646d0ce7f1fa70b716"
+
 nodemon@^1.11.0:
   version "1.18.9"
   resolved "https://registry.yarnpkg.com/nodemon/-/nodemon-1.18.9.tgz#90b467efd3b3c81b9453380aeb2a2cba535d0ead"

@@ -17,6 +17,7 @@
     "css-loader": "^1.0.0",
     "jsonwebtoken": "^8.3.0",
     "knex": "^0.15.2",
+    "nodemailer": "^5.0.0",
     "nodemon": "^1.11.0",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
