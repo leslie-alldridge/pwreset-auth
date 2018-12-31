@@ -5,7 +5,8 @@ const knex = require("knex")(config);
 module.exports = {
   createUser,
   findUser,
-  userExists
+  userExists,
+  userResetReq
 };
 
 function createUser(data, testDb) {
@@ -48,4 +49,18 @@ function userExists(name, testDb) {
 
     console.log("hit find user");
     return connection("users").where('username', name).first();
+}
+
+function userResetReq(email, token, date, testDb) {
+  console.log(token);
+  console.log(date);
+  console.log(email);
+  
+  const connection = testDb || knex;
+  return connection("users").where('email', email).update({
+    resetPasswordToken: token, 
+    resetPasswordExpires:date
+  }).then(data => console.log(data)
+  );
+
 }

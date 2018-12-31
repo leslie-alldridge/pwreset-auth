@@ -10,7 +10,7 @@ const jwtSecret = require("../config/jwtConfig");
 const jwt = require("jsonwebtoken");
 const server = express();
 
-const { findUser } = require("./db/users");
+const { findUser, userResetReq } = require("./db/users");
 require("../config/passport");
 
 server.use(cors("*"));
@@ -92,10 +92,7 @@ server.post("/forgotpassword", (req, res, next) => {
       res.json("email not in db");
     } else {
       const token = crypto.randomBytes(20).toString("hex");
-      user.update({
-        resetPasswordToken: token,
-        resetPasswordExpires: Date.now() + 360000
-      });
+      userResetReq(req.body.email, token, Date.now() + 360000)
 
       const transporter = nodemailer.createTransport({
         service: "gmail",
