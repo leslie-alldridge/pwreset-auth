@@ -31,7 +31,8 @@
     "webpack": "^2.3.3"
   },
   "scripts": {
-    "start": "node server/index & webpack",
+    "postinstall": "webpack",
+    "start": "node server/index",
     "dev": "nodemon --watch server server/index & webpack --watch",
     "build": "react-scripts build",
     "test": "react-scripts test",
