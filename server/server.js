@@ -10,7 +10,7 @@ const jwtSecret = require("../config/jwtConfig");
 const jwt = require("jsonwebtoken");
 const server = express();
 
-const { findUser, userResetReq } = require("./db/users");
+const { findUser, userResetReq, deleteUser } = require("./db/users");
 require("../config/passport");
 
 server.use(cors("*"));
@@ -92,7 +92,7 @@ server.post("/forgotpassword", (req, res, next) => {
       res.json("email not in db");
     } else {
       const token = crypto.randomBytes(20).toString("hex");
-      userResetReq(req.body.email, token, Date.now() + 360000)
+      userResetReq(req.body.email, token, Date.now() + 360000);
 
       const transporter = nodemailer.createTransport({
         service: "gmail",
@@ -125,6 +125,33 @@ server.post("/forgotpassword", (req, res, next) => {
       });
     }
   });
+});
+
+server.delete("/deleteuser", (req, res, next) => {
+  passport.authenticate("jwt", { session: false }, (err, user, info) => {
+    if (err) {
+      console.log(err);
+    }
+    if (info !== undefined) {
+      console.log(info.message);
+      res.send(info.message);
+    } else {
+      deleteUser(user.username)
+        .then(user => {
+          if (user === 1) {
+            console.log("user deleted from db");
+            res.json("user deleted from db");
+          } else {
+            console.log("user not found in db");
+            res.status(404).json("no user with that username to delete");
+          }
+        })
+        .catch(err => {
+          console.log("problem communicating with db");
+          res.status(500).json(err);
+        });
+    }
+  })(req, res, next);
 });
 
 module.exports = server;

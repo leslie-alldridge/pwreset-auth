@@ -87,7 +87,7 @@ class Profile extends Component {
 
     e.preventDefault();
     axios
-      .delete("http://localhost:3003/deleteUser", {
+      .delete("http://localhost:3000/deleteuser", {
         params: {
           username: this.props.match.params.username
         },
