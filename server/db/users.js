@@ -9,7 +9,9 @@ module.exports = {
   userResetReq,
   deleteUser,
   updateUser,
-  updatePassword
+  updatePassword,
+  findToken,
+  updateUserPassword
 };
 
 function createUser(data, testDb) {
@@ -79,4 +81,29 @@ function updatePassword(user, password, testDb){
   .update({
     password
   })
+}
+
+function findToken(token, testDb) {
+  const connection = testDb || knex;
+  return connection("users")
+  .where("resetPasswordToken", token).first()
+}
+
+function updateUserPassword(username, password, testDb){
+  console.log('updating password and token');
+  console.log(username);
+  console.log(password);
+  
+  
+  
+  
+  
+    const connection = testDb || knex;
+    return connection("users")
+    .where("username", username)
+    .update({
+      password,
+      resetPasswordToken: null,
+      resetPasswordExpires: null
+    }).then(data => console.log(data))
 }

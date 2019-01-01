@@ -11,7 +11,7 @@ const server = express();
 const bcrypt = require('bcryptjs');
 const BCRYPT_SALT_ROUNDS = 12;
 
-const { findUser, userResetReq, deleteUser, userExists, updateUser, updatePassword } = require("./db/users");
+const { findUser, userResetReq, deleteUser, userExists, updateUser, updatePassword, findToken, updateUserPassword } = require("./db/users");
 require("../config/passport");
 require("dotenv").config();
 
@@ -111,7 +111,7 @@ server.post("/forgotpassword", (req, res, next) => {
         text:
           `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n` +
           `Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it:\n\n` +
-          `http://localhost:3031/reset/${token}\n\n` +
+          `https://users-leslie.herokuapp.com/reset/${token}\n\n` +
           `If you did not request this, please ignore this email and your password will remain unchanged.\n`
       };
 
@@ -208,6 +208,42 @@ server.put('/updatepassword', (req, res, next) => {
       });
     }
   })(req, res, next);
+});
+
+server.get('/reset', (req, res, next) => {
+  findToken(req.query.resetPasswordToken).then(user => {
+    if (user == null) {
+      console.log('password reset link is invalid or has expired');
+      res.json('password reset link is invalid or has expired');
+    } else {
+      res.status(200).send({
+        username: user.username,
+        message: 'password reset link a-ok',
+      });
+    }
+  });
+});
+
+server.put('/updatepasswordviaemail', (req, res, next) => {
+  userExists(req.body.username).then(user => {
+    if (user != null) {
+      console.log('user exists in db');
+      bcrypt
+        .hash(req.body.password, BCRYPT_SALT_ROUNDS)
+        .then(hashedPassword => {
+          updateUserPassword(req.body.username, hashedPassword)
+        })
+        .then((data) => {
+          console.log('password updated');
+          console.log(data);
+          
+          res.status(200).send({ message: 'password updated' });
+        });
+    } else {
+      console.log('no user exists in db to update');
+      res.status(404).json('no user exists in db to update');
+    }
+  });
 });
 
 module.exports = server;

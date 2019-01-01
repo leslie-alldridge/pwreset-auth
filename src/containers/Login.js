@@ -52,7 +52,6 @@ class Login extends Component {
           password: this.state.password
         })
         .then(response => {
-           console.log(response.data);
           if (
             response.data === "bad username" ||
             response.data === "passwords do not match"

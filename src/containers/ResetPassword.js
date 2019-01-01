@@ -38,7 +38,7 @@ export default class ResetPassword extends Component {
 
   async componentDidMount() {
     await axios
-      .get("http://localhost:3003/reset", {
+      .get("/reset", {
         params: {
           resetPasswordToken: this.props.match.params.token
         }
@@ -74,7 +74,7 @@ export default class ResetPassword extends Component {
   updatePassword = e => {
     e.preventDefault();
     axios
-      .put("http://localhost:3003/updatePasswordViaEmail", {
+      .put("/updatepasswordviaemail", {
         username: this.state.username,
         password: this.state.password
       })
