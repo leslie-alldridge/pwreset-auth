@@ -23,7 +23,6 @@
 
 ### Todos
 - check token time/date so it expires after 1 hour
-- Deploy and user test a working version on Heroku (just need email link updated)
 - Email service for forgotten user names
 - icon for web browser tab
 - react forms / better form styling and entry
