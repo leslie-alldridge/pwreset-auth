@@ -22,7 +22,6 @@
 
 
 ### Todos
-- check token time/date so it expires after 1 hour
 - Email service for forgotten user names
 - icon for web browser tab
 - react forms / better form styling and entry
