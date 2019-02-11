@@ -8,11 +8,6 @@ const headerStyle = {
   color: "white"
 };
 
-const logoStyle = {
-  maxHeight: "40px",
-  marginRight: "15px"
-};
-
 class HeaderBar extends Component {
   render() {
     const { title } = this.props;
@@ -20,10 +15,6 @@ class HeaderBar extends Component {
       <div className="header">
         <AppBar position="static" color="default" style={headerStyle}>
           <Toolbar>
-            <img
-              style={logoStyle}
-              src="https://devacademy.co.nz/wp-content/uploads/2017/06/EDA-square-hires-180x180.png"
-            />
             <Typography variant="title" color="inherit">
               {title.pageTitle}
             </Typography>
