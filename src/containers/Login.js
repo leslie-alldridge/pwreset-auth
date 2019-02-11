@@ -91,7 +91,7 @@ class Login extends Component {
             <TextField
               style={inputStyle}
               id="username"
-              label="username"
+              label="Username"
               value={username}
               onChange={this.handleChange("username")}
               placeholder="Username"
@@ -99,7 +99,7 @@ class Login extends Component {
             <TextField
               style={inputStyle}
               id="password"
-              label="password"
+              label="Password"
               value={password}
               onChange={this.handleChange("password")}
               placeholder="Password"

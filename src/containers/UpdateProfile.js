@@ -158,7 +158,7 @@ class UpdateProfile extends Component {
             <TextField
               style={inputStyle}
               id="first_name"
-              label="first_name"
+              label="First Name"
               value={first_name}
               onChange={this.handleChange("first_name")}
               placeholder="First Name"
@@ -166,7 +166,7 @@ class UpdateProfile extends Component {
             <TextField
               style={inputStyle}
               id="last_name"
-              label="last_name"
+              label="Last Name"
               value={last_name}
               onChange={this.handleChange("last_name")}
               placeholder="Last Name"
@@ -174,7 +174,7 @@ class UpdateProfile extends Component {
             <TextField
               style={inputStyle}
               id="email"
-              label="email"
+              label="Email"
               value={email}
               onChange={this.handleChange("email")}
               placeholder="Email"
@@ -182,7 +182,7 @@ class UpdateProfile extends Component {
             <TextField
               style={inputStyle}
               id="username"
-              label="username"
+              label="Username"
               value={username}
               readOnly
               disabled
@@ -190,7 +190,7 @@ class UpdateProfile extends Component {
             <TextField
               style={inputStyle}
               id="password"
-              label="password"
+              label="Password"
               value={password}
               readOnly
               disabled

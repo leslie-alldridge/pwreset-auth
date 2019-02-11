@@ -142,7 +142,7 @@ class UpdatePassword extends Component {
             <TextField
               style={inputStyle}
               id="password"
-              label="password"
+              label="Password"
               value={password}
               onChange={this.handleChange("password")}
               type="password"

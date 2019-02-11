@@ -69,7 +69,7 @@ class Register extends Component {
               registerError: false
             });
           } else {
-            console.log(response.data)
+            console.log(response.data);
             this.setState({
               //changed here
               messageFromServer: response.data.message,
@@ -106,7 +106,7 @@ class Register extends Component {
             <TextField
               style={inputStyle}
               id="first_name"
-              label="first_name"
+              label="First Name"
               value={first_name}
               onChange={this.handleChange("first_name")}
               placeholder="First Name"
@@ -114,7 +114,7 @@ class Register extends Component {
             <TextField
               style={inputStyle}
               id="last_name"
-              label="last_name"
+              label="Last Name"
               value={last_name}
               onChange={this.handleChange("last_name")}
               placeholder="Last Name"
@@ -122,7 +122,7 @@ class Register extends Component {
             <TextField
               style={inputStyle}
               id="email"
-              label="email"
+              label="Email"
               value={email}
               onChange={this.handleChange("email")}
               placeholder="Email"
@@ -130,7 +130,7 @@ class Register extends Component {
             <TextField
               style={inputStyle}
               id="username"
-              label="username"
+              label="Username"
               value={username}
               onChange={this.handleChange("username")}
               placeholder="Username"
@@ -138,7 +138,7 @@ class Register extends Component {
             <TextField
               style={inputStyle}
               id="password"
-              label="password"
+              label="Password"
               value={password}
               onChange={this.handleChange("password")}
               placeholder="Password"
@@ -178,7 +178,7 @@ class Register extends Component {
       return (
         <div>
           <HeaderBar title={title} />
-          <h3>User successfully registered!</h3>
+          <h3>User registered!</h3>
           <LinkButtons
             buttonText={`Go Login`}
             buttonStyle={loginButton}

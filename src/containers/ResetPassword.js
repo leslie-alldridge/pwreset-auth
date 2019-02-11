@@ -134,7 +134,7 @@ export default class ResetPassword extends Component {
             <TextField
               style={inputStyle}
               id="password"
-              label="password"
+              label="Password"
               onChange={this.handleChange("password")}
               value={password}
               type="password"

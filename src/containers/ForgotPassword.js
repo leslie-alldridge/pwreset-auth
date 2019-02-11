@@ -75,7 +75,7 @@ class ForgotPassword extends Component {
           <TextField
             style={inputStyle}
             id="email"
-            label="email"
+            label="Email"
             value={email}
             onChange={this.handleChange("email")}
             placeholder="Email Address"
