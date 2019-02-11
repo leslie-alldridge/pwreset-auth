@@ -46,7 +46,6 @@ class ForgotPassword extends Component {
           email: this.state.email
         })
         .then(response => {
-          console.log(response.data);
           if (response.data === "email not in db") {
             this.setState({
               showError: true,

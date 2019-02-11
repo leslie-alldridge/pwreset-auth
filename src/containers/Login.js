@@ -15,7 +15,7 @@ import {
 } from "../components";
 
 const title = {
-  pageTitle: "Login Screen"
+  pageTitle: "Login"
 };
 
 class Login extends Component {

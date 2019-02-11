@@ -19,14 +19,8 @@ passport.use(
       session: false
     },
     (req, username, password, done) => {
-        console.log('email req below');
-        
-        console.log(req.body.email);
-        
       try {
         findUser(req.body.email).then(user => {
-            console.log(user);
-            
           if (user != null) {
             console.log("username or email already taken");
             return done(null, false, {
@@ -63,20 +57,12 @@ passport.use(
       session: false
     },
     (username, password, done) => {
-        console.log(username);
-        
       try {
         userExists(username).then(user => {
-            console.log(user);
-            
           if (user === null) {
             return done(null, false, { message: "bad username" });
           } else {
-            const userPass = user.password
-            console.log(password);
-            console.log(userPass);
-            
-            
+            const userPass = user.password;
             bcrypt.compare(password, userPass).then(response => {
               if (response !== true) {
                 console.log("passwords do not match");
@@ -103,13 +89,7 @@ passport.use(
   "jwt",
   new JWTstrategy(opts, (jwt_payload, done) => {
     try {
-        console.log(jwt_payload.id);
-        //
-        // the payload isn't coming through properly. So, I've hardcoded 'test'
-        //
       userExists(jwt_payload.id).then(user => {
-          console.log(user);
-          
         if (user) {
           console.log("user found in db in passport");
           done(null, user);

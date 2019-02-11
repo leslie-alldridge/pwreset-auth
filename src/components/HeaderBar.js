@@ -4,9 +4,13 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 
 const headerStyle = {
-  background:
-    "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 25%, rgba(8,177,5,1) 62%, rgba(0,212,255,1) 100%)",
+  background: "linear-gradient(to right, #59c173, #a17fe0, #5d26c1",
   color: "white"
+};
+
+const logoStyle = {
+  maxHeight: "40px",
+  marginRight: "15px"
 };
 
 class HeaderBar extends Component {
@@ -16,6 +20,10 @@ class HeaderBar extends Component {
       <div className="header">
         <AppBar position="static" color="default" style={headerStyle}>
           <Toolbar>
+            <img
+              style={logoStyle}
+              src="https://devacademy.co.nz/wp-content/uploads/2017/06/EDA-square-hires-180x180.png"
+            />
             <Typography variant="title" color="inherit">
               {title.pageTitle}
             </Typography>

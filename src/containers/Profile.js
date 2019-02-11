@@ -24,7 +24,7 @@ const loading = {
 };
 
 const title = {
-  pageTitle: "User Profile Screen"
+  pageTitle: "User Profile"
 };
 
 class Profile extends Component {
@@ -45,7 +45,6 @@ class Profile extends Component {
 
   async componentDidMount() {
     let accessString = localStorage.getItem("JWT");
-    console.log(accessString);
     if (accessString == null) {
       this.setState({
         isLoading: false,
@@ -94,7 +93,6 @@ class Profile extends Component {
         headers: { Authorization: `JWT ${accessString}` }
       })
       .then(response => {
-        console.log(response.data);
         localStorage.removeItem("JWT");
         this.setState({
           deleted: true

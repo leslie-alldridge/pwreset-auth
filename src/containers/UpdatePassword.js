@@ -20,7 +20,7 @@ const loading = {
 };
 
 const title = {
-  pageTitle: "Update Password Screen"
+  pageTitle: "Update Password"
 };
 
 class UpdatePassword extends Component {

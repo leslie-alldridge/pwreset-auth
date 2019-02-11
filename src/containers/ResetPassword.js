@@ -19,7 +19,7 @@ const loading = {
 };
 
 const title = {
-  pageTitle: "Password Reset Screen"
+  pageTitle: "Password Reset"
 };
 
 export default class ResetPassword extends Component {
@@ -44,7 +44,6 @@ export default class ResetPassword extends Component {
         }
       })
       .then(response => {
-        console.log(response);
         if (response.data.message === "password reset link a-ok") {
           this.setState({
             username: response.data.username,
@@ -79,7 +78,6 @@ export default class ResetPassword extends Component {
         password: this.state.password
       })
       .then(response => {
-        console.log(response.data);
         if (response.data.message === "password updated") {
           this.setState({
             updated: true,

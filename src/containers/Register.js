@@ -13,7 +13,7 @@ import {
 } from "../components";
 
 const title = {
-  pageTitle: "Register Screen"
+  pageTitle: "Register"
 };
 
 class Register extends Component {
@@ -61,7 +61,6 @@ class Register extends Component {
           password: this.state.password
         })
         .then(response => {
-          console.log(response.data);
           if (response.data === "username or email already taken") {
             this.setState({
               showError: true,
@@ -69,9 +68,7 @@ class Register extends Component {
               registerError: false
             });
           } else {
-            console.log(response.data);
             this.setState({
-              //changed here
               messageFromServer: response.data.message,
               showError: false,
               loginError: false,

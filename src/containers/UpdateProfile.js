@@ -20,7 +20,7 @@ const loading = {
 };
 
 const title = {
-  pageTitle: "Update User Profile Screen"
+  pageTitle: "Update User Profile"
 };
 
 class UpdateProfile extends Component {
@@ -58,7 +58,6 @@ class UpdateProfile extends Component {
         headers: { Authorization: `JWT ${accessString}` }
       })
       .then(response => {
-        // console.log(response.data);
         this.setState({
           loadingUser: false,
           first_name: response.data.first_name,
@@ -104,7 +103,6 @@ class UpdateProfile extends Component {
         }
       )
       .then(response => {
-        // console.log(response.data);
         this.setState({
           updated: true,
           error: false
